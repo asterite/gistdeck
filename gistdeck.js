@@ -30,11 +30,81 @@ function displaySlide(n) {
   }[slides[n].tagName];
 
   $(document).scrollTop(top - padding);
+
+  if ($tortoise) drawTortoise();
+  if ($hare) drawHare()
+}
+
+var tickInterval = 1;
+
+var timerInterval;
+var totalTime;
+var currentTime;
+var $tortoise;
+var $hare;
+var tortoiseWidth;
+var hareWidth;
+
+function askTime() {
+  currentTime = prompt("How much time the presentation will last, in minutes?");
+  currentTime = parseInt(currentTime);
+
+  if (timerInterval) clearInterval(timerInterval);
+
+  if (currentTime <= 0) {
+    if ($tortoise) $tortoise.remove();
+    if ($hare) $hare.remove();
+    $tortoise = null;
+    $hare = null;
+    return;
+  }
+
+  currentTime *= 60;
+  currentTime -= 1;
+  totalTime = currentTime;
+
+  $(document.body).append('<div class="tortoise"></div>')
+  $(document.body).append('<div class="hare"></div>')
+
+  $tortoise = $('.tortoise');
+  $hare = $('.hare');
+  tortoiseWidth = $tortoise.width();
+  hareWidth = $hare.width();
+
+  drawTortoise();
+  drawHare();
+  timerInterval = setInterval(drawTortoiseAndAdvance, tickInterval * 1000);
+}
+
+function drawTortoiseAndAdvance() {
+  currentTime -= 1;
+  drawTortoise();
+  if (currentTime == 0) {
+    clearInterval(timerInterval);
+  }
+}
+
+function drawTortoise() {
+  var width = $(window).width() - 40 - tortoiseWidth;
+  var progress = width - (currentTime * width / totalTime);
+  $tortoise.css('left', (progress + 20) + 'px');
+}
+
+function drawHare() {
+  var width = $(window).width() - 40 - hareWidth;
+  var progress = getCurrentSlideIdx() * width / (slides.length - 1);
+  $hare.css('left', (progress + 20) + 'px');
 }
 
 $(document).keydown(function(e) {
   if (e.which == 37)      displaySlide(getCurrentSlideIdx()-1);
   else if (e.which == 39) displaySlide(getCurrentSlideIdx()+1);
+  else if (e.which == 84) askTime();
+});
+
+$(window).resize(function() {
+  if ($hare) drawHare();
+  if ($tortoise) drawTortoise();
 });
 
 displaySlide(0);
