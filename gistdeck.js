@@ -63,7 +63,6 @@ function askTime() {
 
   currentTime *= 60;
   currentTime -= 1;
-  currentTime = 5;
   totalTime = currentTime;
 
   $(document.body).append(
