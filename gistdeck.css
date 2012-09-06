@@ -235,3 +235,18 @@ div.highlight pre, pre code, li code {
   width: 40px;
   background-position: -50px 0;
 }
+.start-flag, .goal-flag {
+  position: fixed;
+  bottom: 20px;
+  width: 28px;
+  height: 44px;
+  background-size: cover;
+}
+.start-flag {
+  left: 20px;
+  background-image: url('start-flag.png');
+}
+.goal-flag {
+  right: 20px;
+  background-image: url('goal-flag.png');
+}

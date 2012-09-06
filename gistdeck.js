@@ -54,6 +54,8 @@ function askTime() {
   if (currentTime <= 0) {
     if ($tortoise) $tortoise.remove();
     if ($hare) $hare.remove();
+    if ($startFlag) $startFlag.remove()
+    if ($goalFlag) $goalFlag.remove()
     $tortoise = null;
     $hare = null;
     return;
@@ -61,13 +63,20 @@ function askTime() {
 
   currentTime *= 60;
   currentTime -= 1;
+  currentTime = 5;
   totalTime = currentTime;
 
-  $(document.body).append('<div class="tortoise"></div>')
-  $(document.body).append('<div class="hare"></div>')
+  $(document.body).append(
+    '<div class="start-flag"></div>' +
+    '<div class="goal-flag"></div>' +
+    '<div class="tortoise"></div>' +
+    '<div class="hare"></div>'
+  )
 
   $tortoise = $('.tortoise');
   $hare = $('.hare');
+  $startFlag = $('.start-flag');
+  $goalFlag = $('.goal-flag');
   tortoiseWidth = $tortoise.width();
   hareWidth = $hare.width();
 
